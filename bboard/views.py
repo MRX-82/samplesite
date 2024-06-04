@@ -20,7 +20,8 @@ def by_rubric(request, rubric_id):
 def index(request):
     bbs = Bb.objects.all()
     rubrics = Rubric.objects.all()
-    context = {'bbs': bbs, 'rubrics': rubrics}
+    kinds = dict(Bb.Kinds.choices)
+    context = {'bbs': bbs, 'rubrics': rubrics, 'kinds': kinds}
     return render(request, 'bboard/index.html', context)
 
 

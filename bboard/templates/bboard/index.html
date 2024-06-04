@@ -1,5 +1,7 @@
 {% extends "layout/basic.html" %}
 
+{% load custom_tags %}
+
 {% block content %}
 {% for bb in bbs %}
 <div>
@@ -7,6 +9,7 @@
   <p>{{ bb.content }}</p>
   <p><a href="{% url 'by_rubric' bb.rubric.pk %}">{{ bb.rubric.name }}</a></p>
   <p>{{ bb.published|date:"d.m.Y H:i:s" }}</p>
+  <p>Тип объявления: {{ kinds|get_item:bb.kind }}</p>
 </div>
 {% endfor %}
 {% endblock %}

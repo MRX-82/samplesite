@@ -1,6 +1,12 @@
 from django.db import models
 
 class Bb(models.Model):
+    class Kinds(models.IntegerChoices):
+        BUY = 1, 'Куплю'
+        SELL = 2, 'Продам'
+        EXCHANGE = 3, 'Обменяю'
+        RENT = 4
+    kind = models.SmallIntegerField(choices=Kinds.choices, default=Kinds.SELL)
     title = models.CharField(max_length=50, verbose_name='Товар')
     content = models.TextField(null=True, blank=True, verbose_name='Описание')
     price = models.FloatField(null=True, blank=True, verbose_name='Цена')
