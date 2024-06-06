@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 class Bb(models.Model):
     class Kinds(models.IntegerChoices):
@@ -20,6 +21,15 @@ class Bb(models.Model):
         verbose_name_plural = 'Объявления'
         verbose_name = 'Объявление'
         ordering = ['-published']
+
+    def clean(self):
+        errors = {}
+        if not self.content:
+            errors['content'] = ValidationError('Укажите описание товара')
+        if self.price and self.price < 0:
+            errors['price'] = ValidationError('Укажите значение цены')
+        if errors:
+            raise ValidationError(errors)
 
 
 class Rubric(models.Model):
