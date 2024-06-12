@@ -1,5 +1,12 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
+
+
+class AdvUser(models.Model):
+    is_actevated = models.BooleanField(default=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
 
 class Bb(models.Model):
     class Kinds(models.IntegerChoices):
