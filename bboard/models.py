@@ -9,11 +9,12 @@ class AdvUser(models.Model):
 
 
 class Bb(models.Model):
-    class Kinds(models.IntegerChoices):
-        BUY = 1, 'Куплю'
-        SELL = 2, 'Продам'
-        EXCHANGE = 3, 'Обменяю'
-        RENT = 4
+    class Kinds(models.TextChoices):
+        BUY = 'b', 'Куплю'
+        SELL = 's', 'Продам'
+        EXCHANGE = 'c', 'Обменяю'
+        RENT = 'r'
+        __empty__ = 'Выберите тип публикуемого объявления'
     kind = models.SmallIntegerField(choices=Kinds.choices, default=Kinds.SELL)
     title = models.CharField(max_length=50, verbose_name='Товар')
     content = models.TextField(null=True, blank=True, verbose_name='Описание')
@@ -27,7 +28,8 @@ class Bb(models.Model):
     class Meta:
         verbose_name_plural = 'Объявления'
         verbose_name = 'Объявление'
-        ordering = ['-published']
+        ordering = ['-published', 'title']
+
 
     def clean(self):
         errors = {}
@@ -50,3 +52,20 @@ class Rubric(models.Model):
         verbose_name_plural = 'Рубрики'
         verbose_name = 'Рубрика'
         ordering = ['name']
+
+
+class Spare(models.Model):
+    name = models.CharField(max_length=30)
+
+
+class Machine(models.Model):
+    name = models.CharField(max_length=30)
+    spares = models.ManyToManyField(Spare)
+
+
+class Measure(models.Model):
+    class Measurements(float, models.Choices):
+        METERS = 1.0, 'Метры'
+        FEET = 0.3048, 'Футы'
+        YARDS = 0.9144, 'Ярды'
+    measurement = models.FloatField(choices=Measurements.choices)
